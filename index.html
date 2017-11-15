@@ -17,34 +17,48 @@
 
 	<script type="text/javascript">
 		alert("Ready to test your abilities?");
-		var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-
 		var wins = 0;
 		var losses = 0;
-		var guesses = 10;
-		var guessesSoFar = []
+		var guessesLeft = 10;
+		var guessesSoFar = [];
+		var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-			var computerChoice = alphabet[Math.floor(Math.random() * alphabet.length)];
-
-			console.log(computerChoice)
-
-		document.onkeypress = function(event) {
-			var userGuess = event.key;
-
-			if(userGuess === computerChoice){
+		document.onkeyup = function(event) {
+			var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+			var computerGuess = computerChoices[Math.floor(Math.random()*computerChoices.length)];
+			guessesSoFar.push(userGuess);
+			if (userGuess == computerGuess) {
 				wins++;
-			}else{
-				guesses--;
+				alert("Looks like you may have some abilities after all!  Enjoy your success!")
+				guessesLeft = 9;
+				guessesSoFar.length = 0;
 			}
-
-			if(guesses === 0){
-				losses++
+			else if (guessesLeft == 0){
+				losses++;
+				alert("It appears you have been lying...");
+				guessesLeft = 9;
+				guessesSoFar.length = 0;
 			}
-
-			
+			else if (userGuess !== computerGuess){
+				guessesLeft--;
+			}
+			var html = "<h1>The Psychic Game!</h1>" + 
+			"<p>Guess the letter that I am imagining!</p>" +
+			"<p>Total Wins: " +
+			wins +
+			"</p>" +
+			"<p>Total Losses: " +
+			losses +
+			"</p>" +
+			"<p>Guesses Left: " +
+			guessesLeft +
+			"</p>" +
+			"<p>Guesses so far: " +
+			guessesSoFar + 
+			"</p>"
+			;
+			document.querySelector("#game").innerHTML = html;
 		}
-
-
 	</script>
 </body>
 </html>
